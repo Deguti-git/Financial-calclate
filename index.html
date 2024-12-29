@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>財務諸表分析</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+  <body>
+    <header>
+      <h1>財務諸表分析</h1>
+    </header>
+    <main>
+      <div class="container">
+        <div class="carclaters">
+          <div class="form-title">
+            <h2>計算フォーム</h2>
+          </div>
+          <div class="carclate">
+            <label>流動資産 (円):</label>
+            <input type="number" id="ryudousisan">
+          </div>
+          <div class="carclate">
+            <label>固定資産 (円):</label>
+            <input type="number" id="koteisisan">
+          </div>
+          <div class="carclate">
+            <label>流動負債 (円):</label>
+            <input type="number" id="ryudouhusai">
+          </div>
+          <div class="carclate">
+            <label>固定負債 (円):</label>
+            <input type="number" id="koteihusai">
+          </div>
+          <div class="carclate">
+            <label>自己資本 (円):</label>
+            <input type="number" id="zikosihon">
+          </div>
+          <div class="carclate">
+            <div class="sousi">
+              <label>総資本 (円):</label>
+              <input type="number" id="sousihon">
+            </div>
+          </div>
+          <div class="carclate">
+            <div class="uri">
+              <label>売上高 (円):</label>
+              <input type="number" id="uriage">
+            </div>
+          </div>
+          <div class="carclate">
+            <label>経常利益 (円):</label>
+            <input type="number" id="keijou">
+          </div>
+          <div class="carclate">
+            <div class="urisou">
+              <label>売上総利益 (円):</label>
+              <input type="number" id="sourieki">
+            </div>
+          </div>
+          <div class="delete-button">
+            <button onClick="sakujo()">すべて削除</button>
+          </div>
+        </div>
+        <div class="modals">
+          <h2>用語集</h2>
+          <h5>勘定科目</h5>
+          <p class="term" onclick="openModal('流動資産','現金と、営業取引によって発生する資産および１年以内に現金となる資産のこと。')">流動資産</p>
+          <p class="term" onclick="openModal('固定資産','長期にわたり企業活動に活用される資産のこと。')">固定資産</p>
+          <p class="term" onclick="openModal('流動負債','営業取引によって発生する債務及び１年以内に返済しなければならない債務のこと。')">流動負債</p>
+          <p class="term" onclick="openModal('固定資産','返済期日が１年以上先に到来する債務のこと。')">固定負債</p>
+          <p class="term" onclick="openModal('自己資本','企業の資産から負債を引いた残りの部分で、株主の持分を示す。')">自己資本</p>
+          <p class="term" onclick="openModal('総資本','企業が所有する全ての資産の合計で、負債と自己資本を含む。')">総資本</p>
+          <p class="term" onclick="openModal('売上高','企業が商品やサービスを販売して得た総収入のこと。')">売上高</p>
+          <p class="term" onclick="openModal('経常利益','企業の本業から得られる利益で、営業利益に金融収益を加え、金融費用を引いたもの。')">経常利益</p>
+          <p class="term" onclick="openModal('売上総利益','売上高から売上原価を引いた利益で、企業の基本的な収益性を示す。')">売上総利益</p>
+          <h5>評価項目</h5>
+          <p class="term" onclick="openModal('固定長期適合率','固定資産が自己資本と長期負債でどれだけ賄われているかを示す指標。５０から２００までの範囲で５段階評価し、値が小さいほど評価が高い。')">固定長期適合率</p>
+          <p class="term" onclick="openModal('自己資本比率','企業の総資本に占める自己資本の割合を示す指標で、財務の健全性や安定性を評価する際に使われる。５０から２００までの範囲で５段階評価し、値が大きいほど評価が高い。')">自己資本比率</p>
+          <p class="term" onclick="openModal('負債比率','自己資本に対する負債の割合を示す指標で、企業の財務リスクを評価する際に使われる。５０から２００までの範囲で５段階評価し、値が小さいほど評価が高い。')">負債比率</p>
+          <p class="term" onclick="openModal('流動比率','流動資産が流動負債に対してどれだけあるかを示す指標で、企業の短期的な支払い能力を評価する。５０から２００までの範囲で５段階評価し、値が大きいほど評価が高い。')">流動比率</p>
+          <p class="term" onclick="openModal('固定比率','固定資産が自己資本に対してどれだけ占めているかを示す指標で、企業の資産構成の安定性を評価する。５０から２００までの範囲で５段階評価し、値が小さいほど評価が高い。')">固定比率</p>
+        </div>
+      </div>
+
+      <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <button onclick="closeModal()" class="close-button">閉じる</button>
+        </div>
+      </div>
+
+      <div class="money-asses">
+        <div class="asses-title">
+          <h2>安定性評価</h2>
+        </div>
+        <div class="rev-asses">
+          <div class="asses">
+            <label>固定長期<br>適合率</label>
+            <div id="tyoukiresult"></div>
+              <div id="tyoukiasses"></div>
+          </div>
+          <div class="asses">
+            <label>自己資本<br>比率</label>
+            <div id="zikosihonresult"></div>
+              <div id="zikosihonasses"></div>
+          </div>
+          <div class="asses">
+            <label>負債比率</label>
+            <div id="husairesult"></div>
+              <div id="husaiasses"></div>
+          </div>
+        </div>
+        <div class="rev-asses">
+          <div class="asses">
+            <label>流動比率</label>
+            <div id="ryudouresult"></div>
+            <div id="ryudouasses"></div>
+          </div>
+          <div class="asses">
+            <label>固定比率</label>
+            <div id="koteiresult"></div>
+            <div id="koteiasses"></div>
+          </div>
+      </div>
+      <div class="parent-all-asses">
+        <div class="all-asses">
+            <label>総合評価</label>
+            <div id="all-asses"></div>
+        </div>
+      </div>
+      <div class="calc-button">
+        <button onClick="calclate()">計算する</button>
+      </div>
+    </div>
+    </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
